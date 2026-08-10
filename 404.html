@@ -11,16 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2339ff88'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='17' font-weight='700' text-anchor='middle' fill='%230a0d0a'%3ENB%3C/text%3E%3C/svg%3E">
-    <script>
-      // Apply the saved accent theme before first paint (no flash).
-      (function () {
-        try {
-          var t = localStorage.getItem('accent-theme');
-          if (t === 'amber-v2') { document.documentElement.setAttribute('data-theme', 'amber'); }
-        } catch (e) {}
-      })();
-    </script>
-
 </head>
 <body>
     <div class="bg" aria-hidden="true">
@@ -52,7 +42,8 @@
             <span class="chrome-title">nash@portfolio</span>
         </a>
 
-        <button class="nav-toggle" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">☰</button>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+        <label for="nav-toggle" class="nav-toggle" aria-label="Open menu">☰</label>
 
         <ul class="nav-links" id="site-links">
             <li><a href="/work">Work</a></li>
@@ -61,10 +52,10 @@
             <li><a href="/contact">Contact</a></li>
         </ul>
 
-        <button class="theme-toggle" type="button" aria-pressed="false"
-                aria-label="Switch accent theme" title="Switch accent theme">
+        <input type="checkbox" id="theme-toggle" class="theme-toggle-input">
+        <label for="theme-toggle" class="theme-toggle" aria-label="Switch accent theme" title="Switch accent theme">
             <span class="theme-toggle-dot" aria-hidden="true"></span>
-        </button>
+        </label>
     </nav>
 </header>
     <main id="main">
@@ -86,7 +77,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p class="mono">© <span data-year>2026</span> Nash Bruce Quiros · Tangub City, Misamis Occidental, Philippines</p>
+            <p class="mono">© 2026 Nash Bruce Quiros · Tangub City, Misamis Occidental, Philippines</p>
             <div class="socials">
                 <a class="social-link" href="https://github.com/nashquiros" rel="noopener" target="_blank" aria-label="GitHub">
     <svg class="social-ico" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
@@ -115,7 +106,5 @@
             </div>
         </div>
     </div>
-</footer>
-    <script src="/assets/js/main.js" defer></script>
-</body>
+</footer></body>
 </html>
