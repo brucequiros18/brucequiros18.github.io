@@ -1,10 +1,5 @@
 # nash-portfolio-react
 
-**This repo powers <https://brucequiros18.github.io/> as a React SPA.**
-The root also contains the prebuilt output (`index.html`, `404.html`, `assets/`, `images/`)
-so GitHub Pages serves it directly via branch deploy — no Pages reconfiguration needed.
-Source of the original static site is preserved in git history (see first 40 commits).
-
 React conversion of [brucequiros18.github.io](https://brucequiros18.github.io/) — the original
 static HTML/CSS site rebuilt as a component-driven **Vite + React** app with `react-router-dom`.
 
@@ -28,7 +23,7 @@ mobile checkbox-hack replaced by idiomatic React state.
 nash-portfolio-react/
 ├── index.html                  # head: fonts, meta, favicons (mirrors original)
 ├── public/images/              # original site assets (avatar, per-project shots, favicons)
-├── scripts/copy-404.js         # postbuild: clones dist/index.html → dist/404.html (SPA fallback)
+├── scripts/write-pages.js      # postbuild: real index.html per route + 404.html (200 deep links)
 ├── .github/workflows/deploy.yml# builds + deploys to GitHub Pages
 └── src/
     ├── main.jsx                # createRoot + BrowserRouter
@@ -69,12 +64,13 @@ nash-portfolio-react/
 ```bash
 npm install        # install dependencies
 npm run dev        # dev server → http://localhost:5173
-npm run build      # production build + write dist/404.html (SPA fallback)
+npm run build      # production build + real directory per route (dist/work/seekret/index.html …) + dist/404.html
 npm run preview    # serve the production build locally
 ```
 
-Pages load instantly client-side; direct visits to like `/work/seekret` work on GitHub Pages
-through the generated `404.html` clone.
+Pages load instantly client-side; direct visits to like `/work/seekret` are served with **HTTP 200**
+from the prebuilt route directories (the site keeps the original's one-`index.html`-per-page URL
+scheme). Truly unknown paths answer 404 through the compiled error page.
 
 ## Editing content
 
