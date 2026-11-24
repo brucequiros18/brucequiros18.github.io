@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "postbuild": "node scripts/write-pages.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && node scripts/sync-root.js"
   },
   "dependencies": {
     "react": "^18.3.1",

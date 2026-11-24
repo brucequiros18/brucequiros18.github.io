@@ -12,7 +12,7 @@ export default function Work() {
       <section className="section page-intro">
         <div className="container">
           <p className="eyebrow">Work</p>
-          <SectionHead title="What I build" index="software · apps · games" />
+          <SectionHead title="What I build" index="software · apps · games" as="h1" />
         </div>
       </section>
 

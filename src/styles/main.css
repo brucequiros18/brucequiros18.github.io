@@ -104,6 +104,8 @@
 html {
   scroll-behavior: smooth;
   background: var(--bg);
+  /* Safety net: nothing may ever push the page into horizontal scroll. */
+  overflow-x: clip;
 }
 
 body {
@@ -263,6 +265,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
+  padding-block: 10px; /* 44px tap target */
 }
 .brand .brand-dot { color: var(--accent); }
 
@@ -374,8 +377,8 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   border: 1px solid var(--border-2);
   border-radius: var(--r-sm);
   color: var(--text);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
@@ -386,7 +389,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   border: 1px solid var(--border-2);
   border-radius: 999px;
   width: 52px;
-  height: 30px;
+  height: 36px;
   padding: 4px;
   margin-left: 10px;
   cursor: pointer;
@@ -614,6 +617,13 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   white-space: nowrap;
 }
 
+/* Below ~400px the heading + index pair no longer fits on one line —
+   let the index wrap instead of pushing past the viewport. */
+@media (max-width: 400px) {
+  .section-head { flex-wrap: wrap; gap: 6px 16px; }
+  .section-head .section-index { white-space: normal; }
+}
+
 /* ---------- about ---------- */
 
 .about-grid {
@@ -635,7 +645,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   box-shadow: inset 0 1px 0 var(--glass-hi);
 }
-.facts h3 { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin: 0 0 18px; font-weight: 500; }
+.facts h2 { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin: 0 0 18px; font-weight: 500; }
 .fact-row {
   display: flex;
   justify-content: space-between;
@@ -865,7 +875,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   padding: clamp(64px, 10vw, 96px) 0 40px;
 }
 
-.footer-cta { max-width: 40ch; margin: 0 0 48px; }
+.footer-cta { max-width: 640px; margin: 0 0 48px; }
 .footer-cta h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 16px; }
 .footer-cta .email-link {
   font-family: var(--font-mono);
@@ -1040,6 +1050,10 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
 /* ---------- about page title ---------- */
 .page-title { font-size: clamp(1.7rem, 3.6vw, 2.4rem); letter-spacing: -0.025em; }
 
+/* Section heads may carry the page's h1 (Work, Contact) — keep them at the
+   same scale as h2 so the visual hierarchy stays consistent across pages. */
+.section-head h1 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); letter-spacing: -0.025em; }
+
 /* ============================================================
    BOLDER PASS ï¿½ attention layer
    Keeps token spine + glass system. Adds display scale,
@@ -1131,11 +1145,15 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
 }
 .profile-row dd { margin: 0; color: var(--text); font-weight: 500; }
 
-/* Status lines cycle through one at a time — CSS-only, no JS. */
+/* Status lines cycle through one at a time — CSS-only, no JS.
+   width:100% (not min-width) so the card never forces the hero column
+   wider than the viewport on small screens — the lines are absolutely
+   positioned and clipped, so they never add to intrinsic width. */
 .profile-status {
   position: relative;
   display: inline-block;
-  min-width: 220px;
+  min-width: 0;
+  width: 100%;
   height: 22px;
   overflow: hidden;
   color: var(--accent);
@@ -1218,6 +1236,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
 
 .section-head { position: relative; }
 
+.section-head h1,
 .section-head h2,
 .section-head .section-index { position: relative; z-index: 1; }
 
@@ -1293,6 +1312,7 @@ h3 { font-size: 1.15rem; letter-spacing: -0.02em; }
   font-size: 13.5px;
   color: var(--text-2);
   transition: color var(--t-fast);
+  padding-block: 7px; /* 44px tap target */
 }
 .social-link:hover { color: var(--accent); }
 .social-link .social-ico { flex: none; display: block; }
@@ -1342,7 +1362,7 @@ h1, h2, h3, .eyebrow, .term-title {
 
 /* ---------- section heads: plain, friendly labels ---------- */
 
-.facts h3 { font-family: var(--font-display); }
+.facts h2 { font-family: var(--font-display); }
 
 /* ---------- image slots ---------- */
 
@@ -1529,6 +1549,8 @@ h1, h2, h3, .eyebrow, .term-title {
   text-decoration: none;
   margin-left: 12px;
   transition: color var(--t-fast);
+  display: inline-block;
+  padding: 12px 6px; /* 44px tap target */
 }
 .project-link:hover { color: var(--accent); }
 /* Stretched link: the whole card is one click target (title link covers it). */
@@ -1638,6 +1660,19 @@ h1, h2, h3, .eyebrow, .term-title {
   flex-direction: column;
   align-items: flex-end;
   gap: 22px;
+}
+
+/* Grid children default to min-width:auto, which lets the terminal card's
+   content set a floor on the hero column. Let them shrink instead. */
+.hero-copy,
+.hero-aside,
+.term { min-width: 0; }
+
+/* Stack terminal rows on very narrow screens so the status line has the
+   full card width instead of being clipped. */
+@media (max-width: 440px) {
+  .profile-row { grid-template-columns: 1fr; gap: 3px; }
+  .term-body { padding-inline: 14px; }
 }
 
 .about-side {
@@ -1993,17 +2028,6 @@ body { line-height: 1.72; }
   animation: shape-float-c 26s ease-in-out infinite;
 }
 
-.bg-shape--near {
-  top: 52%;
-  right: 13%;
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  border: 1px solid var(--border-2);
-  opacity: 0.5;
-  animation: shape-float-d 18s ease-in-out infinite;
-}
-
 @keyframes shape-float-a {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-8deg); }
   50%      { transform: translate3d(26px, -34px, 0) rotate(4deg); }
@@ -2015,10 +2039,6 @@ body { line-height: 1.72; }
 @keyframes shape-float-c {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-12deg); }
   50%      { transform: translate3d(18px, 32px, 0) rotate(-4deg); }
-}
-@keyframes shape-float-d {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(6deg); }
-  50%      { transform: translate3d(-20px, 28px, 0) rotate(10deg); }
 }
 @keyframes shape-float-sm {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
@@ -2073,8 +2093,7 @@ body { line-height: 1.72; }
 @media (max-width: 760px) {
   .bg-shape--far,
   .bg-shape--far-b,
-  .bg-shape--mid,
-  .bg-shape--near {
+  .bg-shape--mid {
     animation-name: shape-float-sm;
   }
 
@@ -2092,8 +2111,7 @@ body { line-height: 1.72; }
   .bg-shape,
   .bg-shape--far,
   .bg-shape--far-b,
-  .bg-shape--mid,
-  .bg-shape--near {
+  .bg-shape--mid {
     animation: none;
   }
 
@@ -2109,5 +2127,139 @@ body { line-height: 1.72; }
   .tag:hover {
     transform: none;
     box-shadow: inset 0 1px 0 var(--glass-high), var(--elev-1);
+  }
+}
+
+/* ============================================================
+   RESUME PAGE
+   Same token spine, same glass — laid out to read like a
+   one-column CV and to print cleanly to PDF.
+   ============================================================ */
+
+.section.resume-intro { padding-bottom: clamp(40px, 6vw, 72px); }
+
+.resume-head {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+}
+
+.resume-name {
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0 0 14px;
+}
+
+.resume-id .hero-role { margin-bottom: 18px; }
+.resume-id .lead { margin-bottom: 30px; }
+
+.resume-facts a { color: var(--accent); }
+.resume-facts a:hover { color: var(--accent-hi); }
+
+.resume-languages { margin-top: clamp(48px, 8vw, 80px); }
+
+@media (max-width: 860px) {
+  .resume-head { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   PRINT — clean light PDF from any page (Ctrl/Cmd + P)
+   ============================================================ */
+
+@media print {
+  @page { margin: 14mm; }
+
+  html {
+    background: #fff;
+    overflow-x: visible;
+  }
+
+  body {
+    background: #fff;
+    color: #16130d;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* Flip the token spine to an ink-friendly light palette — both accents. */
+  :root,
+  :root[data-theme="teal"] {
+    --void: #fff;
+    --bg: #fff;
+    --terminal: #fff;
+    --surface: #fff;
+    --surface-2: #f5f3ee;
+    --border: #d9d4c8;
+    --border-2: #b6af9f;
+    --text: #16130d;
+    --text-2: #3d382e;
+    --text-3: #6d6656;
+    --accent: #8a6512;
+    --accent-hi: #6f5010;
+    --accent-ink: #ffffff;
+    --accent-dim: rgba(138, 101, 18, 0.12);
+    --glass-hi: rgba(0, 0, 0, 0.05);
+    --elev-1: none;
+    --elev-2: none;
+    --elev-3: none;
+  }
+
+  /* Ambience, chrome and controls never print. */
+  .bg,
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .no-print,
+  .btn,
+  .btn-row,
+  .ticker {
+    display: none !important;
+  }
+
+  main { z-index: auto; }
+
+  .section,
+  .section--tight { padding-block: 10pt; }
+  .section.resume-intro { padding-top: 0; }
+
+  /* Scroll-driven reveals never fire in print — force everything visible. */
+  [data-reveal],
+  .type-name {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Cards lose glass, glow and shadow; keep hairline rules only. */
+  .term,
+  .form-card,
+  .focus-grid .focus-item,
+  .project,
+  .job,
+  .principle,
+  .img-slot:has(img),
+  .facts,
+  .project-nav-link {
+    background: #fff !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-color: var(--border-2);
+  }
+
+  h1, h2, h3 { break-after: avoid; }
+
+  .resume-head,
+  .job,
+  .project,
+  .principle,
+  .fact-row,
+  .expertise-list li,
+  .chip,
+  .project-nav-link,
+  .project-highlights li {
+    break-inside: avoid;
   }
 }

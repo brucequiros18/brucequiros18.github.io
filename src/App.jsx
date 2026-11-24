@@ -8,6 +8,7 @@ import Home from './pages/Home.jsx'
 import Work from './pages/Work.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
 import About from './pages/About.jsx'
+import Resume from './pages/Resume.jsx'
 import Uses from './pages/Uses.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/work" element={<Work />} />
         <Route path="/work/:slug" element={<ProjectDetail />} />
         <Route path="/about" element={<About />} />
+        <Route path="/resume" element={<Resume />} />
         <Route path="/uses" element={<Uses />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />

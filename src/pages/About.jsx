@@ -29,7 +29,7 @@ export default function About() {
               <ImgSlot src="/images/about.jpg" alt={PROFILE.name} />
 
               <aside className="facts" aria-label="Quick facts">
-                <h3>Quick Facts</h3>
+                <h2>Quick Facts</h2>
                 <dl>
                   {QUICK_FACTS.map((fact) => (
                     <div key={fact.term} className="fact-row">

@@ -12,11 +12,11 @@ export default function Contact() {
         <div className="container">
           <p className="eyebrow">Contact</p>
           <div className="section-head">
-            <h2>
+            <h1>
               Let's build your
               <br />
               next project together.
-            </h2>
+            </h1>
           </div>
 
           <div className="contact-grid">

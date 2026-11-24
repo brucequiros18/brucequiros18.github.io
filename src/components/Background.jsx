@@ -12,7 +12,6 @@ export default function Background() {
         <div className="bg-shape bg-shape--far"></div>
         <div className="bg-shape bg-shape--far-b"></div>
         <div className="bg-shape bg-shape--mid"></div>
-        <div className="bg-shape bg-shape--near"></div>
       </div>
     </div>
   )

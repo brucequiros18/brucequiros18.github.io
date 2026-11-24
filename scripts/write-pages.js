@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, existsSync } from 'node:fs'
+import { copyFileSync, mkdirSync, existsSync, renameSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { PROJECTS } from '../src/data/site.js'
@@ -11,12 +11,19 @@ const here = dirname(fileURLToPath(import.meta.url))
 const dist = resolve(here, '..', 'dist')
 const index = resolve(dist, 'index.html')
 
+// Vite builds from app.html (see vite.config.js), so the emitted shell is
+// dist/app.html — rename it to the canonical index.html first.
+const built = resolve(dist, 'app.html')
+if (existsSync(built)) {
+  renameSync(built, index)
+}
+
 if (!existsSync(index)) {
   console.error('write-pages: dist/index.html missing — run `vite build` first')
   process.exit(1)
 }
 
-const routes = ['work', 'about', 'uses', 'contact', ...PROJECTS.map((p) => `work/${p.slug}`)]
+const routes = ['work', 'about', 'resume', 'uses', 'contact', ...PROJECTS.map((p) => `work/${p.slug}`)]
 
 for (const route of routes) {
   const dir = resolve(dist, route)

@@ -295,9 +295,32 @@ export const PROJECTS = [
 ]
 
 export const NAV_LINKS = [
+  { label: 'Resume', to: '/resume' },
   { label: 'Uses', to: '/uses' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
 ]
+
+export const RESUME = {
+  summary:
+    'Third-year Computer Science student and software developer specializing in C# and Dart, with experience building cross-platform mobile apps, web systems, and games. Interested in artificial intelligence, software architecture, and backend systems — turning ideas into real, working applications.',
+  education: {
+    period: '2024 — Present',
+    location: 'Tangub City, Philippines',
+    degree: 'Bachelor of Science in Computer Science',
+    school: 'Third-year student',
+    summary:
+      'Developing software solutions, mobile applications, websites, and games while pursuing a Bachelor of Science in Computer Science.',
+    highlights: [
+      'Artificial intelligence and innovation',
+      'Mobile application development',
+      'Web development',
+      'Game development',
+      'Backend development',
+      'Database management',
+    ],
+  },
+  languages: ['English', 'Filipino'],
+}
 
 export const padIndex = (n) => String(n).padStart(2, '0')

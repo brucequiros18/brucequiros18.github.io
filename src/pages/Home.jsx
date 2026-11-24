@@ -33,6 +33,9 @@ export default function Home() {
                 <Link className="btn btn--primary" to="/work">
                   View my work
                 </Link>
+                <Link className="btn btn--ghost" to="/resume">
+                  View resume
+                </Link>
                 <Link className="btn btn--ghost" to="/contact">
                   Get in touch
                 </Link>
